@@ -3,8 +3,7 @@
 
 ---
 
-> **Version:** 1.1 (Bug-Fixed)
-> **Author:** ANALYTICSWITHANAND Framework
+> **Version:** 1.1 
 > **Stack:** Snowpark Python · AWS S3 · Snowflake · Storage Integration · Native Email Notification
 > **Last Updated:** 2026-05-28
 
