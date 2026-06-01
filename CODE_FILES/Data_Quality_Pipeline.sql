@@ -17,7 +17,7 @@ CREATE STORAGE INTEGRATION IF NOT EXISTS S3_STORAGE_INTEGRATION
     TYPE                      = EXTERNAL_STAGE
     STORAGE_PROVIDER          = 'S3'
     ENABLED                   = TRUE
-    STORAGE_AWS_ROLE_ARN      = 'arn:aws:iam::668461484967:role/dq-pipeline-role'
+    STORAGE_AWS_ROLE_ARN      = 'arn:aws:iam::<your aws role arn>'
     STORAGE_ALLOWED_LOCATIONS = ('s3://snowflake-dq-pipeline-bucket/transactions/');
 
 -- IMPORTANT: Run this and copy the output values into your AWS IAM Trust Policy
@@ -150,7 +150,7 @@ CREATE TABLE IF NOT EXISTS ANALYTICS_DB.DIM.PRODUCTS (
 DELETE FROM ANALYTICS_DB.DIM.CUSTOMERS;
 DELETE FROM ANALYTICS_DB.DIM.PRODUCTS;
 
--- BUG FIX: ROW_NUMBER() generates 1,2,3... → CUST-0001 to CUST-0050
+-- ROW_NUMBER() generates 1,2,3... → CUST-0001 to CUST-0050
 -- This now EXACTLY matches the CUST_IDS used in the CSV generator:
 --   CUST_IDS = [f"CUST-{str(i).zfill(4)}" for i in range(1, 51)]
 INSERT INTO ANALYTICS_DB.DIM.CUSTOMERS (CUSTOMER_ID, CUSTOMER_NAME)
@@ -162,7 +162,7 @@ FROM (
     FROM TABLE(GENERATOR(ROWCOUNT => 50))
 );
 
--- BUG FIX: ROW_NUMBER() → PROD-0001 to PROD-0030
+-- ROW_NUMBER() → PROD-0001 to PROD-0030
 -- Matches: PROD_IDS = [f"PROD-{str(i).zfill(4)}" for i in range(1, 31)]
 INSERT INTO ANALYTICS_DB.DIM.PRODUCTS (PRODUCT_ID, PRODUCT_NAME)
 SELECT
@@ -262,7 +262,7 @@ TRUNCATE TABLE ANALYTICS_DB.DQ_MONITORING.DQ_METRICS_LOG;
 -- ============================================================
 
 -- Set your run ID (copy from Python Worksheet output)
-SET RUN_ID = '314acf7a-bfa0-4310-9d26-21b79118fcf6';
+SET RUN_ID = 'your run id';
 
 -- QUERY 1: Summary — all files, status, rows loaded
 SELECT
